@@ -1,0 +1,16 @@
+- build an investment calculator webapp
+- build, configure and combine components
+- manage application state
+- output list and conditional content
+
+
+Task: Add Components for displaying header, fetching user input & outputting the results table,
+
+Fetch & Store user input (i.e., the entered investment parameters)
+
+Derive investment results with help of provided utility function (in the starting project)
+
+Display investment results in a HTML table 
+
+Conditionally display an info message if an invalid duration entered.
+
