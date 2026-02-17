@@ -1,0 +1,9 @@
+                        App 
+                         |
+                ----------------------   cart state
+on updatecartprop|                    |    cart prop
+                Shop              Header
+on updatecartpro|                    |     cart prop
+    updatecart Product          CartModal
+                                     |      cart prop
+                                     Cart    display cart
