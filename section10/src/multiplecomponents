@@ -7,3 +7,5 @@ on updatecartpro|                    |     cart prop
     updatecart Product          CartModal
                                      |      cart prop
                                      Cart    display cart
+
+What's a Reducer? --> A function that reduce one or more complex values to a simpler one.
