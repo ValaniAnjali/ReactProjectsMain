@@ -1,0 +1,20 @@
+-- Dealing With Side Effects
+Keeping the UI Synchronized
+
+-> understanding Side Effects & useEffect()
+-> Effects & Dependencies
+-> when not to use useEffect()??
+
+--what is Side effects?
+-> Side effects are "tasks" that don't impact the current component render cycle
+
+--Potential Problem with Sideeffects: Infinite loop
+
+Examples of side-effects:
+
+API calls
+Geolocation
+setTimeout
+setInterval
+Manual DOM manipulation
+State updates based on external data
