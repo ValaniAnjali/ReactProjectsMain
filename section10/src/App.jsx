@@ -3,12 +3,15 @@
 // component composition
 // sharing  state with Context
 // Managing complex state with reducer
+
+// Context Api
 import { useState } from "react";
 
 import Header from "./components/Header";
 import Shop from "./components/Shop";
 import { DUMMY_PRODUCTS } from "./dummy-products.js";
 import Product from "./components/Product.jsx";
+import { CartContext } from "./store/shopping-cart-context.jsx";
 
 function App() {
   const [shoppingCart, setShoppingCart] = useState({
@@ -71,9 +74,15 @@ function App() {
     });
   }
 
+  const ctxValue={
+    items:shoppingCart.items,
+    addItemToCart: handleAddItemToCart
+  }
+
   return (
     <>
-      <Header
+      <CartContext.Provider value={ctxValue}>
+        <Header
         cart={shoppingCart}
         onUpdateCartItemQuantity={handleUpdateCartItemQuantity}
       />
@@ -84,8 +93,11 @@ function App() {
           </li>
         ))}
       </Shop>
+      </CartContext.Provider>
     </>
   );
 }
 
 export default App;
+
+// use Contet to share values and state updating function in multiple function without using props drilling
