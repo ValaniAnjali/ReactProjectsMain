@@ -1,4 +1,16 @@
+import { useEffect } from "react";
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  useEffect(()=>{
+     const timer=setTimeout(()=>{onConfirm()},3000);
+
+     //return function runs before this function runs again or component demount
+    //  will run once when component is removed if just []
+      return()=>{
+        clearTimeout(timer);
+      };
+
+  },[onConfirm]);
+ 
   return (
     <div id="delete-confirmation">
       <h2>Are you sure?</h2>

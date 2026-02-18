@@ -1,8 +1,9 @@
-import { forwardRef, useRef,useEffect } from 'react';
+import {  useRef,useEffect } from 'react';
 import { createPortal } from 'react-dom';
 function Modal({ open,children }) {
   const dialog = useRef();
 
+  console.log('Timer set here')
     useEffect(()=>{
         if(open){
             dialog.current.showModal();
@@ -13,7 +14,7 @@ function Modal({ open,children }) {
 
   return createPortal(
     <dialog className="modal" ref={dialog}>
-      {children}
+      {open?children:null}
     </dialog>,
     document.getElementById('modal')
   );
