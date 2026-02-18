@@ -1,26 +1,21 @@
-import { useEffect, useState } from "react";
-import Layout from "./Layout";
-import { ThemeContext } from "./store/ThemeContext";
+import { useState } from "react";
+import Child from "./Child";
 
 function App() {
- 
-const [theme,setTheme]=useState('light');
-  function changeTheme(){
-    setTheme(prev=>
-      prev==='light'?'dark':'light'
+  const [count, setCount] = useState(0);
 
-    )
-    console.log(theme);
-  }
-return(
-  <>
-    App
-    <ThemeContext.Provider value={{theme,changeTheme}}>
-      <Layout/>
-    </ThemeContext.Provider>
-    
-  </>
-)
+  console.log("Parent rendered");
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
+
+      <Child />
+    </div>
+  );
 }
 
 export default App;

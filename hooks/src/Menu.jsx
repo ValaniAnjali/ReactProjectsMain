@@ -1,11 +1,11 @@
 import React from 'react'
 import ThemeButton from './ThemeButton'
 
-const Menu = ({changeThemeSidebar}) => {
+const Menu = () => {
   return (
     <div>
         Menu
-        <ThemeButton changeThemeMenu={changeThemeSidebar}/>
+        <ThemeButton />
     </div>
   )
 }

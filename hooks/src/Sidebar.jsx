@@ -1,12 +1,12 @@
 import React from 'react'
 import Menu from './Menu'
 
-const Sidebar = ({changeThemelayout}) => {
+const Sidebar = () => {
   return (
     <div>
         Sidebar
         
-        <Menu changeThemeSidebar={changeThemelayout}/>    
+        <Menu/>    
     </div>
   )
 }
