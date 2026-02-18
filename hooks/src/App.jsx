@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);   // ⚠️ dependency
+  }, [fetchData]);   
   return(
   <>
   <p>
