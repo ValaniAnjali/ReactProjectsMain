@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Layout from "./Layout";
+import { ThemeContext } from "./store/ThemeContext";
 
 function App() {
-  const [theme,setTheme]=useState('light');
+ 
+const [theme,setTheme]=useState('light');
   function changeTheme(){
     setTheme(prev=>
       prev==='light'?'dark':'light'
@@ -10,11 +12,13 @@ function App() {
     )
     console.log(theme);
   }
-
 return(
   <>
     App
-    <Layout changeTheme={changeTheme}/>
+    <ThemeContext.Provider value={{theme,changeTheme}}>
+      <Layout/>
+    </ThemeContext.Provider>
+    
   </>
 )
 }
