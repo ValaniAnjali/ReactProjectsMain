@@ -7,11 +7,22 @@ import DeleteConfirmation from "./components/DeleteConfirmation";
 import logoImg from "./assets/logo.png";
 import { sortPlacesByDistance } from "./Ioc";
 
+
+const storedIds=JSON.parse(localStorage.getItem('selectedPlaces'))||[];
+const storedPlaces=storedIds.map(id=>AVAILABLE_PLACES.find((place)=>place.id===id));
+
 function App() {
-  const modal = useRef();
+  const [modalIsOpen,setModalIsOpen]=useState(false);
   const selectedPlace = useRef();
   const [availblePlaces, setAvailablePlaces] = useState([]);
-  const [pickedPlaces, setPickedPlaces] = useState([]);
+  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
+
+  // redudndant useeffect to remove this initialize pickedstate with stored places, and remove other useeffect code to top so it renders only once
+  // useEffect(()=>{
+  //   const storedIds=JSON.parse(localStorage.getItem('selectedPlaces'))||[];
+  //   const storedPlaces=storedIds.map(id=>AVAILABLE_PLACES.find((place)=>place.id===id));
+  //   setPickedPlaces(storedPlaces);
+  // },[]);
 
   // ///////////////////////////use useeffect to get rid of this infinite loop problem of sideeffect
   // navigator.geolocation.getCurrentPosition((position) => {
@@ -26,15 +37,16 @@ useEffect(()=>{
     const sortedPlaces = sortPlacesByDistance(AVAILABLE_PLACES, position.coords.latitude, position.coords.longitude);
     setAvailablePlaces(sortedPlaces)
   });
+  
 },[])
 
   function handleStartRemovePlace(id) {
-    modal.current.open();
+    setModalIsOpen(true);
     selectedPlace.current = id;
   }
 
   function handleStopRemovePlace() {
-    modal.current.close();
+    setModalIsOpen(false);
   }
 
   function handleSelectPlace(id) {
@@ -47,7 +59,7 @@ useEffect(()=>{
     });
     const storedIds=JSON.parse(localStorage.getItem('selectedPlaces'))||[];
     if(storedIds.indexOf(id)===-1){
-      localStorage.setItem('selectedPlace',JSON.stringify([id,...storedIds]));
+      localStorage.setItem('selectedPlaces',JSON.stringify([id,...storedIds]));
     }
     
   }
@@ -56,12 +68,14 @@ useEffect(()=>{
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
-    modal.current.close();
+    setModalIsOpen(false);
+    const storedIds=JSON.parse(localStorage.getItem('selectedPlaces'))||[];
+    localStorage.setItem('selectedPlaces',JSON.stringify(storedIds.filter((id)=>id!=selectedPlace.current)))
   }
 
   return (
     <>
-      <Modal ref={modal}>
+      <Modal open={modalIsOpen}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
           onConfirm={handleRemovePlace}
