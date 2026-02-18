@@ -1,7 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+const TIMER=3000;
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  const [remainingTime,setRemainingTime]=useState(TIMER);
+
   useEffect(()=>{
-     const timer=setTimeout(()=>{onConfirm()},3000);
+    const interval=setInterval(()=>{
+    setRemainingTime(prevTime=>prevTime-10);
+  },10);
+  return ()=>{
+    clearInterval(interval);
+  };
+  },[]);
+  useEffect(()=>{
+     const timer=setTimeout(()=>{onConfirm()},TIMER);
 
      //return function runs before this function runs again or component demount
     //  will run once when component is removed if just []
@@ -23,6 +34,10 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+      <progress value={remainingTime} max={TIMER}/>
     </div>
   );
 }
+
+
+//optimizing state updates is remaining
