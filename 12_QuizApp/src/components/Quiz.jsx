@@ -6,9 +6,10 @@ import Summary from './Summary';
 
 //useRef - to store and manage value independently of which component belong
 const Quiz = () => {
-   
+    const [quizStarted, setQuizStarted] = useState(false);
     const [userAnswers,setUserAnswers]=useState([]);
-    
+
+
     const activeQuestionIndex=userAnswers.length;
     const quizComplete=activeQuestionIndex===QUESTIONS.length;
     const handleSelectAnswer=useCallback(
@@ -31,6 +32,16 @@ const Quiz = () => {
           
        
     }
+        if (!quizStarted) {
+  return (
+    <div id="quiz-start">
+      <h2>Welcome to the Quiz!</h2>
+      <button onClick={() => setQuizStarted(true)}>
+        Start Quiz
+      </button>
+    </div>
+  );
+}
         
 
     
