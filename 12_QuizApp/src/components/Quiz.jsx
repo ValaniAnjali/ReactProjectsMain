@@ -1,7 +1,8 @@
 import React, { useState,useCallback } from 'react'
-import quizCompleteImg from '../assets/quiz-complete.png'
+
 import QUESTIONS from '.././question'
 import Question from './Question';
+import Summary from './Summary';
 
 //useRef - to store and manage value independently of which component belong
 const Quiz = () => {
@@ -22,10 +23,13 @@ const Quiz = () => {
         handleSelectAnswer(null);
     },[]);
     if(quizComplete){
-        return<div>
-            <img src={quizCompleteImg} alt="complete Quiz Icon"/>
-            <h2>Quiz Completed!</h2>
-        </div>
+        return(
+            <Summary userAnswers={userAnswers}/>
+        )
+             
+     
+          
+       
     }
         
 
