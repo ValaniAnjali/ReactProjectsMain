@@ -4,12 +4,15 @@ import Projectdetail from './components/Projectdetail'
 import Sidebar from './components/Sidebar'
 import AddProject from './components/AddProject'
 import initialProjectData from "./components/ProjectData";
+import ConfirmDeleteDialog from './components/ConfirmDeleteDialog'
 
 function App() {
 
   const [projects, setProjects] = useState(initialProjectData);
   const [selectedProject, setSelectedProject] = useState(null);
   const [addMode, setAddMode] = useState(false);
+  const [deleteProjectId, setDeleteProjectId] = useState(null);
+
 
 
   function addProjectHandler(title, description, task) {
@@ -27,10 +30,20 @@ function App() {
   }
 
  
-  function deleteProjectHandler(id) {
-    setProjects(prev => prev.filter(p => p.id !== id));
-    setSelectedProject(null);
+  function openDeleteDialog(id){
+    setDeleteProjectId(id);
   }
+
+  function confirmDelete() {
+  setProjects(prev =>
+    prev.filter(p => p.id !== deleteProjectId)
+  );
+  setSelectedProject(null);
+  setDeleteProjectId(null);
+}
+function cancelDelete() {
+  setDeleteProjectId(null);
+}
 
  
   function updateProjectHandler(id, newTitle, newDescription) {
@@ -111,11 +124,15 @@ function App() {
           ? <AddProject onSave={addProjectHandler} />
           : <Projectdetail
               project={selectedProject}
-              onDelete={deleteProjectHandler}
+              onDelete={openDeleteDialog}
               onUpdate={updateProjectHandler}
               onAddTask={addTaskHandler}
               onDeleteTask={deleteTaskHandler}
             />
+        
+      }
+      {
+        deleteProjectId&&<ConfirmDeleteDialog isOpen={openDeleteDialog} onConfirm={confirmDelete} onCancel={cancelDelete}/>
       }
 
     </div>

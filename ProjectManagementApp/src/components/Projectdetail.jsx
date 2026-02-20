@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 const Projectdetail = ({
   project,
@@ -11,6 +11,9 @@ const Projectdetail = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [taskInput, setTaskInput] = useState(""); 
+  const dialogRef = useRef();
+  const [projectToDelete, setProjectToDelete] = useState(null);
+
 
   useEffect(() => {
     if (project) {
