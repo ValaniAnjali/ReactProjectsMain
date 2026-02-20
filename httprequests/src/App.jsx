@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import './App.css'
+import ErrorMessage from './ErrorMessage';
 
 function App() {
   const[data,setData]=useState([]);
@@ -7,17 +8,33 @@ function App() {
   const[email,setEmail]=useState('');
   const[orgId,setOrgId]=useState('');
   const[selectedId,setSelectedID]=useState(null);
+  const[error,setError]=useState(null);
+  const[loading,setLoading]=useState(false);
 
   let res,dataa;
    async function loadData(id){
-       res= await fetch(`http://localhost:8090/employees?organizationId=${id}`)
+       try{
+        res= await fetch(`http://localhost:8090/employeessssss ?organizationId=${id}`)
       dataa=await res.json();
      console.log(dataa);
      setData(dataa);
+       }catch(err){
+        setError(err.message);
+       }
     }
-    async function postData(){
-     
-      res=await fetch(selectedId?`http://localhost:8090/employees/${selectedId}`:`http://localhost:8090/employees`,{
+          async function postData(){
+            setError(null);
+          if (!name.trim()) {
+          setError("Name is required");
+          return;
+          }
+
+        if (!email.trim()) {
+          setError("Email is required");
+          return;
+        }
+      try{
+        res=await fetch(selectedId?`http://localhost:8090/employees/${selectedId}`:`http://localhost:8090/employees`,{
         method:selectedId?'PUT':'POST',
         headers:{
           "Content-Type":"application/json"
@@ -25,7 +42,19 @@ function App() {
         body:JSON.stringify({name,email,"organizationId":orgId})
         
       })
-     loadData(1);
+     await loadData(orgId);
+     setName("");
+     setEmail("");
+     setSelectedID(null);
+     if(!res.ok){
+      setError("Seems Url has some peoblem")
+     }
+      }catch(err){
+        setError(err.message);
+      }
+      finally{
+        setLoading(false);
+      }
       
     }
     async function updatedata(name,email,id,organizationId){
@@ -67,6 +96,9 @@ function App() {
         )
       })}
     </ul>
+
+    {error && <ErrorMessage message={error}/>}
+      
     </>
   )
 }
