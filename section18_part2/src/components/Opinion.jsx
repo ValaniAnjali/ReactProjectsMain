@@ -2,14 +2,14 @@ import { useActionState, useContext } from 'react';
 import {OpinionsContext} from '../store/opinions-context'
 export function Opinion({ opinion: { id, title, body, userName, votes } }) {
   const {opinions,addOpinion,upvoteOpinion,downvoteOpinion}=useContext(OpinionsContext);
- async function upvoteFormAction(){
+ async function upvoteAction(){
     await upvoteOpinion(id);
   }
-  async function downvoteFormAction(){
+  async function downvoteAction(){
     await downvoteOpinion(id);
   }
-  const [upvoteFormState,upvoteFormAction,upvotePending]=useActionState(upvoteAction);
-  const [downvoteFormState,downvoteFormAction,downvotePending]=useActionState(downvoteAction);
+  const [,upvoteFormAction,upvotePending]=useActionState(upvoteAction,null);
+  const [,downvoteFormAction,downvotePending]=useActionState(downvoteAction,null);
 
   return (
     <article>
