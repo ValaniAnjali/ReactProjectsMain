@@ -1,63 +1,78 @@
-import { createContext,useState } from "react";
+import axios from "axios";
+import { createContext, useState, useEffect,useMemo } from "react";
+
+export const FoodContext = createContext();
+
+const CART_URL = "http://localhost:3000/cart";
 
 
-export const FoodContext=createContext(
-    {
-        cartItems:[],
-        addToCart:()=>{},
-        increaseQuantity:()=>{},
-        decreaseQuantity:()=>{}
+export default function FoodContextProvider({ children }) {
+    const [cartItems, setCartItems] = useState([]);
+       
 
-    }
-);
-export default function FoodContextProvider({children}){
-    let [cartItems,setCartItems]=useState([]);   
-    let increaseQuantity=(id)=>{
-        setCartItems(
-            (prevItems)=>{return prevItems.map((item)=>{
-               return item.id===id?{
-                    ...item,quantity:item.quantity+1,
-                }:item
-            });}
-        )
-        
-    } 
-    let decreaseQuantity=(id)=>{
-        setCartItems(
-            (prevItems)=>{
-                return prevItems.map((item)=>{
-                    return (item.id===id)?{
-                        ...item,quantity:item.quantity-1,
-                    }:item
-                }).filter(item=>item.quantity>0)
-            }
-        )
-    }
-    let addToCart=(product)=>{
-        setCartItems((prevItems)=>{
-            const existingItem=prevItems.find(
-                (item)=>item.id===product.id
-            )
-             if(existingItem){
-            return prevItems.map((item)=>{
-               return item.id===product.id?{
-                    ...item
-                }:item
+    
+
+ 
+    const fetchCart = async () => {
+        const res = await axios.get(CART_URL);
+        setCartItems(res.data);
+    };
+
+    useEffect(() => {
+        fetchCart();
+    }, []);
+
+    const addToCart = async (product) => {
+        const existing = cartItems.find(i => i.id === product.id);
+        if (existing) return;
+
+        await axios.post(CART_URL, { ...product, quantity: 1 });
+        fetchCart();
+    };
+
+    const increaseQuantity = async (id) => {
+        const item = cartItems.find(i => i.id === id);
+        if (!item) return;
+
+        await axios.patch(`${CART_URL}/${id}`, {
+            quantity: item.quantity + 1
+        });
+
+        fetchCart(); 
+    };
+
+    const decreaseQuantity = async (id) => {
+        const item = cartItems.find(i => i.id === id);
+        if (!item) return;
+
+        if (item.quantity === 1) {
+            await axios.delete(`${CART_URL}/${id}`);
+        } else {
+            await axios.patch(`${CART_URL}/${id}`, {
+                quantity: item.quantity - 1
             });
         }
 
-        return[...prevItems,{...product,quantity:1}];
-        
-        })
-       console.log(cartItems)
-    }
-    const contextValue={
-        cartItems,addToCart,increaseQuantity,decreaseQuantity
-    }
+        fetchCart(); 
+    };
 
-    return(
-        <FoodContext.Provider value={contextValue}>
+
+     const contextValue = useMemo(() => {
+    return {
+        cartItems,
+        addToCart,
+        increaseQuantity,
+        decreaseQuantity
+    };
+}, [cartItems]);
+
+    return (
+
+
+        <FoodContext.Provider value={
+            contextValue
+        }>
             {children}
         </FoodContext.Provider>
-    )
+    );
 }
