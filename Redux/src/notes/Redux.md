@@ -67,3 +67,11 @@ install via: npm install @reduxjs/toolkit
 --configureStore
 ---redux toolkit uses package imgur :it takes our state,keeps all the state we are not editing and overrides current state obj with new.
 
+
+----------------
+Redux deep dive
+
+handling Async Tasks with Redux
+where to put your code
+Redux dev tools
+------------------------------

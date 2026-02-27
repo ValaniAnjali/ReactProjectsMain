@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import classes from './Counter.module.css';
 import { useSelector,useDispatch,connect } from 'react-redux';
-import { counterActions } from '../store';
+import { counterActions } from '../store/counter';
 
 const Counter = () => {
     //slice (like whatever part we want to acces we can by help of useSelector)
