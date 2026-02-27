@@ -8,7 +8,7 @@ export default function Login() {
     // const[enteredPassword,setEnteredPassword]=useState('')
     // const isEmailValid=enteredValues.email!=='' && !enteredValues.email.includes('@');
     const{value:emailValue, handleInputChange:handleEmailChange, handleInputBlur:handleEmailBlur,hasError:emailHasError}=useInput('',(value)=>isEmail(value)&&isNotEmpty(value),);
-    const{value:passwordvalue, handleInputChange:handlePasswordChange, handleInputBlur:handlePasswordBlur,hasError:passwordHasError}=useInput('',(value)=>hasMinLength(value)&&isNotEmpty(value) );
+    const{value:passwordvalue, handleInputChange:handlePasswordChange, handleInputBlur:handlePasswordBlur,hasError:passwordHasError}=useInput('',(value)=>hasMinLength(value,6)&&isNotEmpty(value) );
 
 
  
