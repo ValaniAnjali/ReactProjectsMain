@@ -8,33 +8,7 @@ const ProductItem = (props) => {
   const { title, price, description, id } = props;
 
   const addToCartHandler=()=>{
-    const newTotalQuantity=cart.totalQuantity+1;
-    const updatedItems=cart.items.slice();//create copy via  slice to avoid mutation
-    const existingItem=updatedItems.find((item)=>item.id===id);
-    if(existingItem){
-      const updatedItems={...existingItem};//new object+copy  existing properties
-      updatedItems.quantity++;
-      updatedItems.price=updatedItems.price+price;
-      const existingItemIndex=updatedItems.findIndex(
-        (item)=>item.id===id
-      );
-      updatedItems[existingItemIndex]=updatedItems;
-    }else{
-      updatedItems.push({
-        id:id,
-        price:price,
-        quantity:1,
-        totalPrice:price,
-        name:title,
-      })
-    }
-
-    const newCart={
-      totalQuantity:newTotalQuantity,
-      items:updatedItems,
-
-    };
-    dispatch(cartActions.replaceCart(newCart));  
+    
 
     //and then send http request
     //fetch('firebase-url',{method:'POST',body:JSON.stringify(newCart)})

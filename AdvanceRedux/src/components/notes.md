@@ -10,3 +10,7 @@ where to put our logic?
 --Async code or code with side-effects
 ----prefer action creators or components never use reducers.
 
+-------------------------------
+what is thunk? - Function that delays an action until later
+
+-->an action creator function that does not return the action itself but insted another function which evantually returns the action.
